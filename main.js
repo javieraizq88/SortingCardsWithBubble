@@ -1,29 +1,71 @@
 var arrCards = []; // Global variable for the cards
-document.querySelector("#draw").addEventListener("click", function () { //al hacer click se generan las cartas
-    document.querySelector(".contenedor").innerHTML = '';
-    cardsgenerated = [];
-    for (var x = 1; x < newinput; x++) {
-        let cards = ["A", 2, 3, 4, 5, 6, 7, 8, 9, 10, "J", "Q", "K"]; 
-        let a = Math.floor(Math.random() * cards.length); // genera al azar un numero de las cartas que son objetos
-        let symbols = ['spade', 'cubs', 'hearts', 'diamonds'];
-        let b = Math.floor(Math.random() * colors.length); // genera una pinta al azar
-        generarCarta(cards[rn1], colors[rn2]); //dibuja la carta
-        cardsgenerated.push({"num": cards[rn1], "color": colors[rn2]});
-    }
-    let cards = document.querySelector(".cards");
-    cards.appendChild(drawCard(numbers[a], symbols[b], classColor));
-    arrCards.push({ "number": numbers[a], "symbol": symbols[b], "classCol": classColor });
-});
 
-const drawCard = (num, color) => {
-    let card = document.createElement("div"); //crea un div para poner la carta
-    card.classList.add("number");
-    card.classList.add(color);
-    card.innerHTML = num;
-
+const drawCard = (number, symbol, color) => {
     let card = document.createElement("div");
     card.classList.add("card");
-    card.appendChild(number);
+    card.classList.add("mt-3");
+    card.classList.add("ml-3");
+    if (number == 1) {
+        newnumber = "A";
+        card.innerHTML = `
+        <p id="symbolup" class="text-left mr-1 mt-2 ${color}">${symbol}</p>
+        <h1 id="numbers" class="text-center">${newnumber}</h1>
+        <p id="symboldown" class="text-right mr-1 mb-2 ${color}">${symbol}</p>
+`;
+    } else if (number == 13) {
+        king = "K";
+        card.innerHTML = `
+        <p id="symbolup" class="text-left mr-1 mt-2 ${color}">${symbol}</p>
+        <h1 id="numbers" class="text-center">${king}</h1>
+        <p id="symboldown" class="text-right mr-1 mb-2 ${color}">${symbol}</p>
+`;
+    } else if (number == 12) {
+        queen = "Q";
+        card.innerHTML = `
+        <p id="symbolup" class="text-left mr-1 mt-2 ${color}">${symbol}</p>
+        <h1 id="numbers" class="text-center">${queen}</h1>
+        <p id="symboldown" class="text-right mr-1 mb-2 ${color}">${symbol}</p>
+`;
+    }else if (number == 11) {
+        prince = "J";
+        card.innerHTML = `
+        <p id="symbolup" class="text-left mr-1 mt-2 ${color}">${symbol}</p>
+        <h1 id="numbers" class="text-center">${prince}</h1>
+        <p id="symboldown" class="text-right mr-1 mb-2 ${color}">${symbol}</p>
+`;
+    }else {
+        card.innerHTML = `
+        <p id="symbolup" class="text-left mr-1 mt-2 ${color}">${symbol}</p>
+        <h1 id="numbers" class="text-center">${number}</h1>
+        <p id="symboldown" class="text-right mr-1 mb-2 ${color}">${symbol}</p>
+`;
+    }
+    return card;
+}
+
+function InputNumber() {
+    
+    let newinput = document.getElementById("inputPassword2").value;
+    if (newinput == "") {
+        alert("Enter valid number");
+    }
+    else {
+        for (var x = 1; x <= newinput; x++) {
+            let numbers = [2, 3, 4, 5, 6, 7, 8, 9, 10, 13, 12, 11, 1];
+            let a = Math.floor(Math.random() * numbers.length);
+            let symbols = ["♠", "♣", "♥", "♦"];
+            let b = Math.floor(Math.random() * symbols.length);
+            if (b == 2 || b == 3) {
+                classColor = "redColor";
+            } else {
+                classColor = "blackColor";
+            }
+            let cards = document.querySelector(".cards");
+            cards.appendChild(drawCard(numbers[a], symbols[b], classColor));
+            arrCards.push({ "number": numbers[a], "symbol": symbols[b], "classCol": classColor });
+        }
+        //return arrCards;
+    }
 }
 
 const OrderNumbers = () => {
@@ -42,7 +84,8 @@ const bubbleSort = (arr) => {
         while (index < wall) {
             //compare the adjacent positions, if the right one is bigger, we have to swap
             //alert(index + " " + arr);
-            if (arr[index].number > arr[index + 1].number) {   
+            if (arr[index].number > arr[index + 1].number) {
+                
                 let aux = arr[index];
                 arr[index] = arr[index + 1];
                 arr[index + 1] = aux;
