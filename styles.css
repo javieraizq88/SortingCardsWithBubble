@@ -8,6 +8,10 @@ body {
     margin-left: 2%;
     margin-top: 1%;
 }
+
+hr{
+    border: solid 1px;
+}
 .card {
     background-color: #ffffff;
     border-radius: 10px;
